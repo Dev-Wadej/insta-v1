@@ -1,12 +1,14 @@
 import Image from 'next/image'
 import Header from '../components/Header'
 import Head from 'next/head'
+import Feed from '@/components/Feed'
+import Stories from '@/components/Stories'
 
   
 
 export default function Home() {
   return (
-    <>
+    <div className='bg-gray-50 min-h-screen'>
       <Head>
         <title>Instagram Clone App</title>
         <meta name="description" content="copied by Joshua" />
@@ -15,7 +17,14 @@ export default function Home() {
       </Head>
 
       {/* Header */}
-      <Header/>     
-    </>
+      <Header/>    
+
+       {/*Feed Sextion  */}
+       <Feed/>
+
+
+       {/* Stories Section here */}
+       <Stories />
+    </div>
   )
 }
