@@ -2,7 +2,6 @@ import Image from 'next/image'
 import Header from '../components/Header'
 import Head from 'next/head'
 import Feed from '@/components/Feed'
-import Stories from '@/components/Stories'
 
   
 
@@ -24,7 +23,6 @@ export default function Home() {
 
 
        {/* Stories Section here */}
-       <Stories />
     </div>
   )
 }

@@ -1,13 +1,17 @@
 import React from 'react'
+import Stories from './Stories'
+import Post from './Posts'
 
 function Feed() {
   return (
     <main>
       <section>
           {/* Stories  */}
+          <Stories/>
 
 
           {/* Post */}
+          <Post />
       </section>
 
       
@@ -15,6 +19,7 @@ function Feed() {
           {/* Mini Profile */}
 
           {/* Suggestions */}
+
       </section>
     </main>
   )
