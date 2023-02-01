@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import { DotsHorizontalIcon } from '@heroicons/react/outline'
+import { DotsHorizontalIcon,HeartIcon,ChatIcon,BookmarkIcon } from '@heroicons/react/outline'
 
 function Post({id,caption,img,userImg,username}) {
   return (
@@ -15,6 +15,16 @@ function Post({id,caption,img,userImg,username}) {
 
         {/* Post Image */}
         <Image className='object-cover w-full' src={img} alt='User post' width={700} height={700}/>
+
+        {/* Post Buttons */}
+        <div className="flex justify-between px-4 pt-4">
+            <div className='flex space-x-4'>
+                <HeartIcon className="btn hover:scale-125" />
+                <ChatIcon className="btn hover:scale-125" />
+            </div>
+                <BookmarkIcon className="btn hover:scale-125" />
+
+        </div>
     </div>
   )
 }
