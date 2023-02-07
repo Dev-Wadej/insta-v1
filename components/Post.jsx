@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import { DotsHorizontalIcon,HeartIcon,ChatIcon,BookmarkIcon } from '@heroicons/react/outline'
+import { DotsHorizontalIcon,HeartIcon,ChatIcon,BookmarkIcon,EmojiHappyIcon } from '@heroicons/react/outline'
 
 function Post({id,caption,img,userImg,username}) {
   return (
@@ -23,8 +23,21 @@ function Post({id,caption,img,userImg,username}) {
                 <ChatIcon className="btn hover:scale-125" />
             </div>
                 <BookmarkIcon className="btn hover:scale-125" />
-
         </div>
+
+        {/* Post comments */}
+        <p className='p-5 truncate'>
+            <span className='font-bold mr-2'>{username}</span>
+            {caption}
+        </p>
+
+        {/* Post Input Box */}
+        <form className="flex items-center p-4">
+            <EmojiHappyIcon  className='h-7 cursor-pointer'/>
+            <input className='border-none flex-1 focus:ring-0' type="text" placeholder='Enter your comment ...' />
+            <button className='text-blue-400 font-bold'>Post</button>
+        </form>
+
     </div>
   )
 }
