@@ -3,9 +3,13 @@ import React from 'react'
 import { SearchIcon,PlusCircleIcon } from '@heroicons/react/outline'
 import { HomeIcon  } from '@heroicons/react/solid'
 import { useSession,signOut,signIn } from 'next-auth/react'
+import { useRecoilState } from 'recoil'
+import { modalState } from '@/atom/modalAtom'
+
 
 function Header() {
 
+  const[open,setOpen]=useRecoilState(modalState)
   const {data:session}= useSession()
   console.log(session)
   return (
@@ -42,7 +46,7 @@ function Header() {
           {
             session ?
          (   <>
-          <PlusCircleIcon className='h-6 cursor-pointer hover:scale-125 transition-transform duration-200 ease-out'/>
+          <PlusCircleIcon className='h-6 cursor-pointer hover:scale-125 transition-transform duration-200 ease-out' onClick={()=>setOpen(true)}/>
 
             <Image src={session.user.image} alt='User-Image'
             width={40}

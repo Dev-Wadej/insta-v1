@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Header from '../components/Header'
 import Head from 'next/head'
 import Feed from '@/components/Feed'
+import UploadModal from '@/components/UploadModal'
 
   
 
@@ -21,8 +22,8 @@ export default function Home() {
        {/*Feed Sextion  */}
        <Feed/>
 
-
        {/* Stories Section here */}
+       <UploadModal />
     </div>
   )
 }
