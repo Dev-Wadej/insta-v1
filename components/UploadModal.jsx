@@ -37,6 +37,9 @@ export default function UploadModal() {
                 })
                 
         })
+        setOpen(false)
+        setLoading(false)
+        setSelectedFile(null)
     } 
 
     const filePickerRef = useRef(null)
