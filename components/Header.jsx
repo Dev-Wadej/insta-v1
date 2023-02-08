@@ -5,10 +5,12 @@ import { HomeIcon  } from '@heroicons/react/solid'
 import { useSession,signOut,signIn } from 'next-auth/react'
 import { useRecoilState } from 'recoil'
 import { modalState } from '@/atom/modalAtom'
+import { useRouter } from 'next/router'
 
 
 function Header() {
 
+  const router = useRouter()
   const[open,setOpen]=useRecoilState(modalState)
   const {data:session}= useSession()
   console.log(session)
@@ -21,6 +23,7 @@ function Header() {
                 <Image src="http://www.pngitem.com/pimgs/m/132-1327993_instagram-logo-word-png-transparent-png.png" alt='Instagrams logo'
                 layout='fill'
                 className='object-contain'
+                onClick={()=>router.push('/ ')}
                 />
             </div>  
             
@@ -28,6 +31,7 @@ function Header() {
                 <Image src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/1200px-Instagram_logo_2022.svg.png" alt='Instagrams logo'
                 layout='fill'
                 className='object-contain'
+                onClick={()=>router.push('/ ')}
                 />
             </div>
 
@@ -42,7 +46,7 @@ function Header() {
 
       {/* Right */}
       <div className="flex space-x-4 items-center">
-          <HomeIcon className='hidden md:inline-flex h-6 cursor-pointer hover:scale-125 transition-transform duration-200 ease-out'/>
+          <HomeIcon  onClick={()=>router.push('/ ')} className='hidden md:inline-flex h-6 cursor-pointer hover:scale-125 transition-transform duration-200 ease-out'/>
           {
             session ?
          (   <>
