@@ -49,17 +49,17 @@ function Header() {
           <HomeIcon  onClick={()=>router.push('/ ')} className='hidden md:inline-flex h-6 cursor-pointer hover:scale-125 transition-transform duration-200 ease-out'/>
           {
             session ?
-         (   <>
-          <PlusCircleIcon className='h-6 cursor-pointer hover:scale-125 transition-transform duration-200 ease-out' onClick={()=>setOpen(true)}/>
+         (<>
+              <PlusCircleIcon className='h-6 cursor-pointer hover:scale-125 transition-transform duration-200 ease-out' onClick={()=>setOpen(true)}/>
 
-            <Image src={session.user.image} alt='User-Image'
-            width={40}
-            height={40}
-            onClick={signOut}
-            className='h-10 rounded-full cursor-pointer' />
-          </>): (
-            <>
-            <button onClick={signIn}>Sign In</button>
+                <Image src={session.user.image} alt='User-Image'
+                width={40}
+                height={40}
+                onClick={signOut}
+                className='h-10 rounded-full cursor-pointer' />
+                </>): (
+                <>
+                <button onClick={signIn}>Sign In</button>
             </>
           )
 
