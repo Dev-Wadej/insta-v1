@@ -38,12 +38,12 @@ function Post({id,caption,img,userImg,username}) {
     setHasLiked(
       likes.findIndex(like=>like.id===session?.user.uid) !== -1
     )
-  },[likes, session.user.uid])
+  },[likes, session?.user.uid])
 
   const likePost=async()=>{
     if(hasLiked){
       await deleteDoc(doc(db,"posts",id,"likes",session.user.uid),{
-        username: session.user.username
+        username: session?.user?.username
       })
 
     }
