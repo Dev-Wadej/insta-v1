@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { DotsHorizontalIcon,HeartIcon,ChatIcon,BookmarkIcon,EmojiHappyIcon } from '@heroicons/react/outline'
+import { HeartIcon as HeartIconFilled } from '@heroicons/react/solid'
 import { useSession } from 'next-auth/react'
-import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, onSnapshot, orderBy, query, serverTimestamp, setDoc } from 'firebase/firestore'
 import { db } from '../firebase.config'
 import Moment from 'react-moment'
 
@@ -10,6 +12,8 @@ function Post({id,caption,img,userImg,username}) {
   const{data:session}= useSession()
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
+  const [hasLiked, setHasLiked] = useState(false);
+  const [likes, setLikes] = useState([]);
   // console.log(comments) 
 
   useEffect(() => {
@@ -21,6 +25,35 @@ function Post({id,caption,img,userImg,username}) {
     )
       return unSubscribe
   }, [db,id]);
+
+  useEffect(()=>{
+    const unSubscribe = onSnapshot(
+      collection(db,"posts",id, "likes"),(snapshot)=>{
+        setLikes(snapshot.docs)
+      }
+    )
+  },[id,db])
+
+  useEffect(()=>{
+    setHasLiked(
+      likes.findIndex(like=>like.id===session?.user.uid) !== -1
+    )
+  },[likes, session.user.uid])
+
+  const likePost=async()=>{
+    if(hasLiked){
+      await deleteDoc(doc(db,"posts",id,"likes",session.user.uid),{
+        username: session.user.username
+      })
+
+    }
+    else{
+      await setDoc(doc(db,"posts",id,"likes",session.user.uid),{
+        username: session.user.username
+      })
+    }
+
+  }
   async function sendComment(e) {
     e.preventDefault()
     const commentToSend = comment;
@@ -51,7 +84,13 @@ function Post({id,caption,img,userImg,username}) {
         {session && (
         <div className="flex justify-between px-4 pt-4">
             <div className='flex space-x-4'>
-                <HeartIcon className="btn hover:scale-125" />
+                {
+                  hasLiked ? (
+                    <HeartIconFilled onClick={likePost} className="text-red-400 btn hover:scale-125" />
+                    ) : (
+                    <HeartIcon onClick={likePost} className="btn hover:scale-125" />
+                  )
+                }
                 <ChatIcon className="btn hover:scale-125" />
             </div>
                 <BookmarkIcon className="btn hover:scale-125" />
