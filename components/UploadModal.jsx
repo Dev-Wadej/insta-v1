@@ -54,7 +54,7 @@ export default function UploadModal() {
             setSelectedFile(readerEvent.target.result)
         }
     }
-    console.log(open)
+    // console.log(open)
   return (
     <div>
      {open && (

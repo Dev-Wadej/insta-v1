@@ -1,25 +1,37 @@
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DotsHorizontalIcon,HeartIcon,ChatIcon,BookmarkIcon,EmojiHappyIcon } from '@heroicons/react/outline'
 import { useSession } from 'next-auth/react'
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
+import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore'
 import { db } from '../firebase.config'
+import Moment from 'react-moment'
 
 function Post({id,caption,img,userImg,username}) {
   const{data:session}= useSession()
-  const [comments, setComments] = useState("");
+  const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
+  // console.log(comments) 
 
+  useEffect(() => {
+    const unSubscribe = onSnapshot(
+      collection(db,"posts",id, "comments"),orderBy("timestamp","desc"),
+      (snapshot)=>{
+        setComments(snapshot.docs)
+      }
+    )
+      return unSubscribe
+  }, [db,id]);
   async function sendComment(e) {
     e.preventDefault()
-    const commentToSend = comments;
-    setComments("")
+    const commentToSend = comment;
+    setComment("")
 
     await addDoc(collection(db, "posts",id,"comments"),{
       comment:commentToSend,
       username:session.user.username,
       userImage: session.user.image,
       timeStamp: serverTimestamp(),
-    })
+    });
   }
 
   return (
@@ -51,6 +63,18 @@ function Post({id,caption,img,userImg,username}) {
             <span className='font-bold mr-2'>{username}</span>
             {caption}
         </p>
+        {comments?.length > 0 && (
+          <div className="mx-10 max-h-24 overflow-y-scroll scrollbar-none">
+            {comments?.map(comment=>(
+              <div className="flex items-center space-x-2 mb-2" key={comment.id}>
+                <Image className='h-7 w-7 rounded-full object-cover' src={comment.data().userImage} height={50} width={50} alt='user-image'/>
+                <p className='font-semibold'>{comment.data().username}</p>
+                <p className='flex-1 truncate'>{comment.data().comment}</p>
+                <Moment fromNow>{comment.data().timeStamp?.toDate()}</Moment>
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Post Input Box */}
         {
@@ -61,11 +85,11 @@ function Post({id,caption,img,userImg,username}) {
             className='border-none flex-1 focus:ring-0'
             type="text" 
             placeholder='Enter your comment ...'
-            value={comments}
-            onChange={(e)=> setComments(e.target.value)}
+            value={comment}
+            onChange={(e)=> setComment(e.target.value)}
             />
 
-            <button type='submit' onClick={sendComment} disabled={!comments.trim()} className='text-blue-400 font-bold disabled:text-blue-200'>Post</button>
+            <button type='submit' onClick={sendComment} disabled={!comment.trim()} className='text-blue-400 font-bold disabled:text-blue-200'>Post</button>
         </form>
           )
         }

@@ -17,7 +17,7 @@ export default function Stories() {
             }
             )
          )
-         console.log(stories)
+        //  console.log(stories)
          setStoryUsers(stories)
     },[])
   return (
